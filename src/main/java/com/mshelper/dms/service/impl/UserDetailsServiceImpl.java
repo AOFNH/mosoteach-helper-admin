@@ -1,7 +1,9 @@
 package com.mshelper.dms.service.impl;
 
 import com.mshelper.dms.dto.UserInfo;
+import com.mshelper.dms.po.SysRole;
 import com.mshelper.dms.po.SysUser;
+import com.mshelper.dms.service.SysRoleService;
 import com.mshelper.dms.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -21,6 +23,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private SysUserService userService;
 
+    @Autowired
+    private SysRoleService roleService;
+
     //密码加密
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -39,11 +44,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
          * org.springframework.security.core.userdetails.User;
          * 该类实现了 UserDetails
          */
+        SysRole role = roleService.findRoleById(user.getUsrRoleId());
         UserInfo u = new UserInfo(username,
-//                passwordEncoder.encode(password),
+                //passwordEncoder.encode(password),
                 //db 中已加密
                 password,
-                AuthorityUtils.commaSeparatedStringToAuthorityList(user.getUsrRoleName()),
+                AuthorityUtils.commaSeparatedStringToAuthorityList(role.getRoleName()),
                 user.getUsrId(),
                 user.getUsrRoleId(),
                 user.getUsrFlag()

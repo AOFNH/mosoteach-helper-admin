@@ -87,9 +87,9 @@ public class UserController {
     }
 
 
-    @RequestMapping(value = "/getUserById", method = RequestMethod.GET)
+    @RequestMapping(value = "/getUserById/{id}", method = RequestMethod.GET)
     @ApiOperation(value = "根据id查询")
-    public SysUser getUserById(long userId){
+    public SysUser getUserById(@PathVariable Long userId){
 
         SysUser user = userService.findUserById(userId);
         return user;

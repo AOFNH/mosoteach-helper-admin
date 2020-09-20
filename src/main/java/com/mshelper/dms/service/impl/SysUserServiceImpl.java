@@ -102,6 +102,11 @@ public class SysUserServiceImpl implements SysUserService {
             if(u != null){
                 throw new UserException("用户名已存在");
             }
+            /*
+            用户注册时无法设置用户状态、roleId、roleName，
+            默认为普通用户，
+            并且普通用户无法更新用户信息（避免 在swagger中 权限提升 问题）
+             */
             user.setUsrPassword(passwordEncoder.encode(user.getUsrPassword()));
             user.setUsrFlag(1);
             user.setUsrRoleId(2L);

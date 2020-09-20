@@ -132,4 +132,51 @@ public class ConvertUtils {
     }
 
 
+    public static List<FunctionUsageDetail> getAllFunctionsUsageDetails(Boolean isShowOthers, List<FunctionUsageDetail> list) {
+        List<FuncFunction> allFunctions = functionService.findAllFunctions();
+
+        //将 功能使用量 和 名称 转存为 Map
+        HashMap<String, Long> stringLongHashMap = new HashMap<>();
+        for (FunctionUsageDetail f : list
+        ) {
+            stringLongHashMap.put(f.getFuncName(), f.getCount());
+        }
+
+        //如果选择不显示其他日统计总数，需要移除 key 为 null 的 entry
+        if(!isShowOthers){
+            stringLongHashMap.remove(null);
+        }
+
+        //添加 没有使用记录的功能 ，并记其 使用量 为 0
+        for (FuncFunction f : allFunctions
+        ) {
+            Long oldVal = stringLongHashMap.getOrDefault(f.getFcName(), 0L);
+            stringLongHashMap.put(f.getFcName(), oldVal);
+        }
+        //计算所有功能的使用总量
+        Long total = 0L;
+        for (Long count : stringLongHashMap.values()
+        ) {
+            total += count;
+        }
+        //计算各功能的使用量的总量占比
+        ArrayList<FunctionUsageDetail> arrayList = new ArrayList<>();
+        for (Map.Entry entry : stringLongHashMap.entrySet()
+        ) {
+            float proportion = 0.0F;
+            Long val = (Long) entry.getValue();
+            proportion =  (float) val / total;
+
+            FunctionUsageDetail detail = new FunctionUsageDetail();
+            String funcName = (String) entry.getKey() == null ? "其他总计" : (String) entry.getKey();
+            detail.setFuncName(funcName);
+            detail.setCount((Long) entry.getValue());
+            detail.setProportion(proportion);
+
+            arrayList.add(detail);
+        }
+        return arrayList;
+    }
+
+
 }

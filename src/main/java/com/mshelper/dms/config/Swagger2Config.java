@@ -38,13 +38,15 @@ public class Swagger2Config {
 		pars.add(tokenPar.build());
 
 		return new Docket(DocumentationType.SWAGGER_2)
+				//设置 swagger2 API 文档的 Base URL, 与 nginx 配置解耦（ mst.bellamy.top:8443 => localhost:8001）
+				.host("mst.bellamy.top:8443")
+//				.host("localhost:8001")
 				.select()
 				.apis(RequestHandlerSelectors.basePackage("com.mshelper.dms.controller"))
 				.paths(PathSelectors.any())
 				.build()
 				.globalOperationParameters(pars)
 				.apiInfo(apiInfo());
-
 	}
 
 
@@ -61,10 +63,10 @@ public class Swagger2Config {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("MosoteachHelper 后台管理系统")
+                .title("MosoteachHelper 后台管理系统 API")
                 .description("项目地址: https://github.com/AOFNH/mosoteach-helper")
                 .termsOfServiceUrl("https://github.com/AOFNH/mosoteach-helper")
-                .version("1.0")
+                .version("0.0.1")
                 .build();
     }
 }

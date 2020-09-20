@@ -110,7 +110,7 @@ public class HitsController {
     //POST 存在跨域请求问题 CORS
 
     @RequestMapping(value = "/saveOrUpdateUsePost", method = RequestMethod.POST)
-    @ApiOperation(value = "保存或更新一条功能使用记录")
+    @ApiOperation(value = "保存或更新一条功能使用记录(失效：由于全局配置，局部配置失效)")
     public String saveOrUpdateUsePost(FuncHits funcHits, HttpServletResponse response) {
 
         funcHits.setHtDate(new Date());
@@ -142,6 +142,23 @@ public class HitsController {
         return "操作成功";
 
     }
+
+    @RequestMapping(value = "/getAllFunctionsSubtotalByDate/{showOthers}/{date}", method = RequestMethod.GET)
+    @ApiOperation(value = "获取指定日期下所有功能的使用数据（总量及占比）; showOthers ( 0, 1 )可选择是否显示其他日期的总计")
+    public List<FunctionUsageDetail> getAllFunctionsSubtotalByDate(@PathVariable Integer showOthers, @PathVariable String date){
+        Boolean isShowOthers = showOthers == 0 ? false : true;
+        List<FunctionUsageDetail> list = hitsService.findAllFunctionsUsageDetailByDate(isShowOthers, date);
+        return list;
+    }
+
+    @RequestMapping(value = "/getAllFunctionsSubtotalWithinRange/{showOthers}/{startDate}/{endDate}", method = RequestMethod.GET)
+    @ApiOperation(value = "获取指定日期范围间所有功能的使用数据（总量及占比）;showOthers ( 0, 1 )可选择是否显示其他日期的总计")
+    public List<FunctionUsageDetail> getAllFunctionsSubtotalWithinRange(@PathVariable Integer showOthers, @PathVariable String startDate, @PathVariable String endDate){
+        Boolean isShowOthers = showOthers == 0 ? false : true;
+        List<FunctionUsageDetail> list = hitsService.findAllFunctionsUsageDetailWithinRange(isShowOthers, startDate, endDate);
+        return list;
+    }
+
 
 
 

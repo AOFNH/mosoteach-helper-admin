@@ -99,10 +99,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/function/**",
                         "/role/**",
                         "/user/getAllUsers",
+                        "/user/getUserById/**",
                         "/user/getUsers/**",
                         "/user/getUsersByRoleId/**",
                         "/user/removeUserById",
-                        "/user/getUserById",
                         "/user/updateUserInfo"
                 ).hasAnyAuthority("admin")
                 // 所有请求都需要认证

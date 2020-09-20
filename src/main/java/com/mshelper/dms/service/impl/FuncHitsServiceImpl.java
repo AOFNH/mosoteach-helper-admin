@@ -120,6 +120,22 @@ public class FuncHitsServiceImpl implements FuncHitsService {
     }
 
     @Override
+    public List<FunctionUsageDetail> findAllFunctionsUsageDetailByDate(Boolean isShowOthers, String date) {
+        List<FunctionUsageDetail> list = hitsExtMapper.selectFunctionsByDate(date);
+        List<FunctionUsageDetail> allFunctionsUsageDetails =
+                ConvertUtils.getAllFunctionsUsageDetails(isShowOthers, list);
+        return allFunctionsUsageDetails;
+    }
+
+    @Override
+    public List<FunctionUsageDetail> findAllFunctionsUsageDetailWithinRange(Boolean isShowOthers, String startDate, String endDate) {
+        List<FunctionUsageDetail> list = hitsExtMapper.selectFunctionsWithinRange(startDate, endDate);
+        List<FunctionUsageDetail> allFunctionsUsageDetails =
+                ConvertUtils.getAllFunctionsUsageDetails(isShowOthers, list);
+        return allFunctionsUsageDetails;
+    }
+
+    @Override
     public List<FunctionUsageDetailOnDate> findThisFuncUsageDetailGroupDay(long funcId) {
 
         SelectStatementProvider render =

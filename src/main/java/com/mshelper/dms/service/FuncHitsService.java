@@ -72,6 +72,26 @@ public interface FuncHitsService {
      */
     List<FunctionUsageDetail> findAllFunctionUsageDetail();
 
+
+    /**
+     * 所有功能的使用数据
+     *
+     * 获取 指定日期 所有功能的 使用量 及  总量占比
+     * @param date
+     * @return
+     */
+    List<FunctionUsageDetail> findAllFunctionsUsageDetailByDate(Boolean isShowOthers, String date);
+
+    /**
+     * 所有功能的使用数量
+     *
+     * 获取 指定时间范围内 所有功能的 使用量 及 总量占比
+     * @param startDate
+     * @param endDate
+     * @return
+     */
+    List<FunctionUsageDetail> findAllFunctionsUsageDetailWithinRange(Boolean isShowOthers, String startDate, String endDate);
+
     /**
      * 粒度：日使用量、单个功能
      * 根据功能id

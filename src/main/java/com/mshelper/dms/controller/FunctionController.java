@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
@@ -22,6 +23,14 @@ public class FunctionController {
     @ApiOperation(value = "查询所有功能")
     public List<FuncFunction> getAllFunctions(){
         List<FuncFunction> allFunctions = functionService.findAllFunctions();
+        return  allFunctions;
+    }
+
+    @RequestMapping(value = "/getAllFunctionsWithCORS", method = RequestMethod.GET)
+    @ApiOperation(value = "查询所有功能")
+    public List<FuncFunction> getAllFunctionsWithCORS(HttpServletResponse response){
+        List<FuncFunction> allFunctions = functionService.findAllFunctions();
+        response.addHeader("Access-Control-Allow-Origin", "*");
         return  allFunctions;
     }
 
